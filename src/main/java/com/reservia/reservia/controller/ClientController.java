@@ -1,42 +1,46 @@
 package com.reservia.reservia.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import tornadofx.control.DateTimePicker;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.AnchorPane;
 
-import java.awt.event.ActionEvent;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientController {
-    @FXML
-    private DatePicker calendar;
+
 
     @FXML
-    private Label ClientTitleLabel;
+    private AnchorPane actualView;
 
-    // Remove this
-    @FXML
-    private DateTimePicker dateTimePicker;
+    private void loadView(String fxml) {
+        try {
+            actualView.getChildren().clear();
 
-    @FXML
-    public void initialize() {
-        // Disable dates before today in the DatePicker
-        calendar.setDayCellFactory(d -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
+            AnchorPane view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
+            actualView.getChildren().setAll(view);
 
-                setDisable(item.isBefore(LocalDate.now()));
-            }
-        });
+            actualView.setTopAnchor(view, 0.0);
+            actualView.setBottomAnchor(view, 0.0);
+            actualView.setLeftAnchor(view, 0.0);
+            actualView.setRightAnchor(view, 0.0);
+        } catch (Exception e) {
+            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
-    public void getDate(ActionEvent event) {
-        LocalDate date = calendar.getValue();
-        String formattedDate = date.format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"));
-        System.out.println(formattedDate);
+
+    @FXML
+    private void loadCreateAppointmentView() {
+        loadView("/com/reservia/reservia/view/CreateAppointmentView.fxml");
+    }
+    @FXML
+    private void loadAccountView() {
+        loadView("/com/reservia/reservia/view/AccountView.fxml");
+    }
+    @FXML
+    private void loadShowAppointmentView() {
+        loadView("/com/reservia/reservia/view/ShowAppointmentView.fxml");
     }
 }

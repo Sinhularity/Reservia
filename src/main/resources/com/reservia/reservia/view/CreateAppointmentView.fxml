@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="516.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.controller.CreateAppointmentController">
+
+    <children>
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="322.0" prefWidth="373.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <content>
+                <VBox alignment="CENTER" prefHeight="275.0" prefWidth="302.0">
+
+                    <children>
+                        <Region minHeight="20.0" minWidth="20.0" />
+                        <Label layoutX="94.0" layoutY="66.0" prefHeight="55.0" prefWidth="246.0" styleClass="sub-titule" stylesheets="@../style/mainView.css" text="Selecciona una fecha para la cita" />
+                        <Region minHeight="20.0" minWidth="20.0" />
+                        <DatePicker fx:id="calendar" layoutX="94.0" layoutY="100.0" prefHeight="41.0" prefWidth="205.0" promptText="Selecciona una fecha" stylesheets="@../style/mainView.css" />
+                        <Region minHeight="20.0" minWidth="20.0" />
+                        <Label layoutX="94.0" layoutY="149.0" prefHeight="55.0" prefWidth="228.0" styleClass="sub-titule" stylesheets="@../style/mainView.css" text="Selecciona una hora" />
+                        <Region minHeight="20.0" minWidth="20.0" />
+                        <ComboBox fx:id="timeComboBox" layoutX="94.0" layoutY="182.0" prefHeight="40.0" prefWidth="176.0" />
+                        <Region minHeight="20.0" minWidth="20.0" />
+                        <ListView prefHeight="191.0" prefWidth="145.0">
+                            <padding>
+                                <Insets bottom="10" left="10" right="10" top="10" />
+                            </padding>
+                        </ListView>
+                        <Region minHeight="20.0" minWidth="20.0" />
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

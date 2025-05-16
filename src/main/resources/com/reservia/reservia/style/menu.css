@@ -1,0 +1,41 @@
+/* Menu Bar */
+.menu-bar {
+    -fx-background-color: linear-gradient(to bottom, #0f3d8c, #d0e7ff);
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+/* Buttons */
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2d2d30;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15 10 15;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+/* Hover */
+.menu-button:hover {
+    -fx-background-color: #d0e7ff;
+    -fx-text-fill: #0f3d8c;
+}
+
+/* Active */
+.menu-button:focused {
+    -fx-background-color: #cce0f5;
+    -fx-text-fill: #0f3d8c;
+    -fx-border-color: #7baaf7;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+}
+
+/* Space between buttons */
+.menu-separator {
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 5 0 5 0;
+}

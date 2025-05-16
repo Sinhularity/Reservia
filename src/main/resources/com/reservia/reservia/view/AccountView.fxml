@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="185.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.controller.AccountController">
+   <children>
+      <Label layoutX="26.0" layoutY="27.0" text="Correo electrónico" />
+      <TextField layoutX="26.0" layoutY="59.0" prefHeight="25.0" prefWidth="207.0" />
+      <Label layoutX="26.0" layoutY="99.0" text="Nombre completo" />
+      <TextField layoutX="26.0" layoutY="126.0" prefHeight="25.0" prefWidth="207.0" />
+   </children>
+</AnchorPane>

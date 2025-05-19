@@ -15,23 +15,26 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CreateAppointmentController {
     @FXML
     public DatePicker calendar;
 
-    private String selectedDate;
-
     @FXML
     public ComboBox<String> timeComboBox;
 
-    private String selectedTime;
-
+    @FXML
+    public Button createAppointmentButton;
 
     private List<Doctor> doctors;
 
     @FXML
     public ListView<Doctor> doctorListView;
+
+    private LocalDate selectedDate;
+    private String selectedTime;
+    private Doctor selectedDoctor;
 
     private void initializeTimeComboBox() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -51,13 +54,23 @@ public class CreateAppointmentController {
         timeComboBox.setPromptText("Selecciona una hora");
     }
 
-    public void getDateAndTime(ActionEvent event) {
-        LocalDate date = calendar.getValue();
-        selectedDate = date.format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"));
-        selectedTime = timeComboBox.getValue();
+    public void getDateAndTime() {
+        try {
+            if (calendar.getValue() != null && timeComboBox.getValue() != null) {
+                selectedDate = calendar.getValue();
+                selectedTime = timeComboBox.getValue();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
     }
 
-
+    public void getDoctor() {
+        selectedDoctor = doctorListView.getSelectionModel().getSelectedItem();
+        if (selectedDoctor != null) {
+            System.out.println("Doctor seleccionado: " + selectedDoctor.getFirstName() + " " + selectedDoctor.getLastName());
+        }
+    }
 
     @FXML
     public void initialize() {
@@ -97,5 +110,21 @@ public class CreateAppointmentController {
         System.out.println("Doctor list size: " + doctors.size());
         em.close();
         emf.close();
+    }
+
+    @FXML
+    public void createAppointment() {
+        getDoctor();
+        getDateAndTime();
+        if (selectedDate != null && selectedTime != null && selectedDoctor != null) {
+            System.out.println("Cita creada para el doctor: " + selectedDoctor.getFirstName() + " " + selectedDoctor.getLastName());
+            System.out.println("Fecha: " + selectedDate);
+            System.out.println("Hora: " + selectedTime);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Advertencia");
+            alert.setContentText("Rellena todos los campos");
+            alert.showAndWait();
+        }
     }
 }

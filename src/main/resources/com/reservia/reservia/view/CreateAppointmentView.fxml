@@ -17,7 +17,11 @@
         <Label text="Selecciona un doctor" style="-fx-font-size: 14;" />
         <ListView fx:id="doctorListView" prefHeight="150" prefWidth="300"/>
 
-        <Label fx:id="doctorSeleccionadoLabel" text="Doctor seleccionado: Ninguno" style="-fx-font-style: italic;" />
+     <Button
+        fx:id="createAppointmentButton" text="Crear Cita"
+        stylesheets="../style/button.css" styleClass="principleButton"
+        onAction="#createAppointment"
+     />
     </VBox>
 
 </AnchorPane>

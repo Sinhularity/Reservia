@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS appointment;
 CREATE TABLE appointment (
                   appointment_id INT AUTO_INCREMENT PRIMARY KEY,
                   date DATE NOT NULL,
-                  time TIME NOT NULL,
+                  time VARCHAR(5) NOT NULL,
                   reason TEXT,
                   doctor_id INT,
                   patient_id INT

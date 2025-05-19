@@ -107,6 +107,8 @@ public class CreateAppointmentController {
                 }
             }
         });
+
+
         System.out.println("Doctor list size: " + doctors.size());
         em.close();
         emf.close();

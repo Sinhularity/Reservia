@@ -45,3 +45,12 @@ VALUES ('Laura', 'Gómez', 'Ramírez', 'MED654321', 'Pediatría', 'laura.gomez@h
 
 INSERT INTO doctor (first_name, last_name, middle_name, license_number, specialty, email)
 VALUES ('Carlos', 'Fernández', 'Lopez', 'MED789012', 'Dermatología', 'carlos.fernandez@hospital.com');
+
+INSERT INTO patient (first_name, last_name, middle_name, curp, phone, email)
+VALUES ('Ana', 'López', 'Martínez', 'LOPA890123HDFRNL01', '5551234567', 'ana.lopez@example.com');
+
+INSERT INTO patient (first_name, last_name, middle_name, curp, phone, email)
+VALUES ('Miguel', 'Hernández', 'García', 'HERG901223HDFRNL02', '5559876543', 'miguel.hernandez@example.com');
+
+INSERT INTO patient (first_name, last_name, middle_name, curp, phone, email)
+VALUES ('Sofía', 'Ramírez', 'Pérez', 'RAMP920101HDFRNL03', '5557654321', 'sofia.ramirez@example.com');

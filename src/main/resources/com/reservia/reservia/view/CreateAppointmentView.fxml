@@ -19,7 +19,7 @@
 
      <Button
         fx:id="createAppointmentButton" text="Crear Cita"
-        stylesheets="../style/button.css" styleClass="principleButton"
+        stylesheets="@../style/button.css" styleClass="principleButton"
         onAction="#createAppointment"
      />
     </VBox>

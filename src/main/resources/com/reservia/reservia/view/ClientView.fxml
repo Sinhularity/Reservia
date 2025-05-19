@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -18,9 +19,12 @@
             <Button fx:id="AccountView" mnemonicParsing="false" onAction="#loadAccountView" styleClass="menu-button" text="Perfil" />
          </children>
       </VBox>
-      <AnchorPane fx:id="actualView" layoutX="201.0" layoutY="95.0" prefHeight="273.0" prefWidth="380.0">
+      <ScrollPane fx:id="actualView" layoutX="189.0" layoutY="81.0" prefHeight="281.0" prefWidth="376.0">
+         <padding>
+            <Insets top="10.0"/>
+         </padding>
+      </ScrollPane>
 
-      </AnchorPane>
 
    </children>
 </AnchorPane>

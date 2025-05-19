@@ -1,28 +1,37 @@
 package com.reservia.reservia.controller;
 
+import com.reservia.reservia.model.Doctor;
+import com.reservia.reservia.service.DoctorService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class CreateAppointmentController {
     @FXML
-    private DatePicker calendar;
+    public DatePicker calendar;
 
     private String selectedDate;
 
     @FXML
-    private ComboBox<String> timeComboBox;
+    public ComboBox<String> timeComboBox;
 
     private String selectedTime;
 
+
+    private List<Doctor> doctors;
+
+    @FXML
+    public ListView<Doctor> doctorListView;
 
     private void initializeTimeComboBox() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -42,10 +51,13 @@ public class CreateAppointmentController {
         timeComboBox.setPromptText("Selecciona una hora");
     }
 
-    public void getDate(ActionEvent event) {
+    public void getDateAndTime(ActionEvent event) {
         LocalDate date = calendar.getValue();
         selectedDate = date.format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"));
+        selectedTime = timeComboBox.getValue();
     }
+
+
 
     @FXML
     public void initialize() {
@@ -60,5 +72,30 @@ public class CreateAppointmentController {
         });
 
         initializeTimeComboBox();
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("reserviaPU");
+        EntityManager em = emf.createEntityManager();
+
+        DoctorService doctorService = new DoctorService(em);
+        doctors = doctorService.findAllDoctors();
+
+        // Cargar la ListView con los datos
+        ObservableList<Doctor> observableDoctors = FXCollections.observableArrayList(doctors);
+        doctorListView.setItems(observableDoctors);
+
+        doctorListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Doctor doctor, boolean empty) {
+                super.updateItem(doctor, empty);
+                if (empty || doctor == null) {
+                    setText(null);
+                } else {
+                    setText(doctor.getFirstName() + " " + doctor.getLastName()+ " - "+ doctor.getSpecialty());
+                }
+            }
+        });
+        System.out.println("Doctor list size: " + doctors.size());
+        em.close();
+        emf.close();
     }
 }

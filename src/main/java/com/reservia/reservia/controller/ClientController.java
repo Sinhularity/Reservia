@@ -1,35 +1,34 @@
 package com.reservia.reservia.controller;
 
+import com.reservia.reservia.model.Doctor;
+import com.reservia.reservia.service.DoctorService;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.control.ScrollPane;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientController {
 
-
     @FXML
-    private AnchorPane actualView;
+    private ScrollPane actualView;
 
     private void loadView(String fxml) {
         try {
-            actualView.getChildren().clear();
-
-            AnchorPane view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
-            actualView.getChildren().setAll(view);
-
-            actualView.setTopAnchor(view, 0.0);
-            actualView.setBottomAnchor(view, 0.0);
-            actualView.setLeftAnchor(view, 0.0);
-            actualView.setRightAnchor(view, 0.0);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+            actualView.setContent(root);
         } catch (Exception e) {
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
 
     @FXML
     private void loadCreateAppointmentView() {
@@ -42,5 +41,10 @@ public class ClientController {
     @FXML
     private void loadShowAppointmentView() {
         loadView("/com/reservia/reservia/view/ShowAppointmentView.fxml");
+    }
+
+    @FXML
+    public void initialize() {
+        loadCreateAppointmentView();
     }
 }

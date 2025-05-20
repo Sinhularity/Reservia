@@ -36,9 +36,8 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(int doctorId, String firstName, String lastName, String middleName
+    public Doctor( String firstName, String lastName, String middleName
             , String licenseNumber, String specialty, String email) {
-        this.doctorId = doctorId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;

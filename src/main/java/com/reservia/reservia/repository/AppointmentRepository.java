@@ -25,6 +25,7 @@ public class AppointmentRepository {
     public Appointment findById(int id) {
         return em.find(Appointment.class, id);
     }
+
     public void delete(Appointment appointment) {
         em.getTransaction().begin();
         em.remove(appointment);

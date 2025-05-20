@@ -47,13 +47,68 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(int patientId, String firstName, String middleName, String lastName, String curp, String phone, String email) {
-        this.patientId = patientId;
+    public Patient( String firstName, String middleName, String lastName, String curp, String phone, String email) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.curp = curp;
         this.phone = phone;
+        this.email = email;
+    }
+
+    public int getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCurp() {
+        return curp;
+    }
+
+    public void setCurp(String curp) {
+        this.curp = curp;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 }

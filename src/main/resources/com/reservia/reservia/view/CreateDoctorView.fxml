@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.reservia.reservia.controller.CreateDoctorController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox xmlns:fx="http://javafx.com/fxml"
+          layoutX="50" layoutY="50" prefHeight="339.0" prefWidth="335.0" spacing="15">
+
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Registrar nuevo doctor" />
+
+        <TextField fx:id="firstNameField" promptText="Nombre(s)" />
+        <TextField fx:id="lastNameField" promptText="Apellido paterno" />
+        <TextField fx:id="middleNameField" promptText="Apellido materno" />
+        <TextField fx:id="specialtyField" promptText="Especialidad" />
+        <TextField fx:id="phoneField" promptText="Teléfono" />
+        <TextField fx:id="emailField" promptText="Correo electrónico" />
+
+        <Button onAction="#saveDoctor" prefWidth="200" text="Guardar doctor" />
+
+    </VBox>
+</AnchorPane>

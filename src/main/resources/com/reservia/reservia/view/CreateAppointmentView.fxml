@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.reservia.reservia.controller.CreateAppointmentController"
-            prefWidth="600" prefHeight="600">
+<AnchorPane prefHeight="941.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.controller.CreateAppointmentController">
 
-    <VBox spacing="15" layoutX="50" layoutY="50">
-        <Label text="Selecciona una fecha para la cita" style="-fx-font-size: 14;" />
-        <DatePicker fx:id="calendar" prefWidth="200"/>
+    <VBox layoutX="50" layoutY="50" spacing="15">
+        <Label style="-fx-font-size: 14;" text="Selecciona una fecha para la cita" />
+        <DatePicker fx:id="calendar" prefWidth="200" />
 
-        <Label text="Selecciona una hora" style="-fx-font-size: 14;" />
-        <ComboBox fx:id="timeComboBox" prefWidth="200"/>
+        <Label style="-fx-font-size: 14;" text="Selecciona una hora" />
+        <ComboBox fx:id="timeComboBox" prefWidth="200" />
 
-        <Label text="Selecciona un doctor" style="-fx-font-size: 14;" />
-        <ListView fx:id="doctorListView" prefHeight="150" prefWidth="300"/>
+        <Label style="-fx-font-size: 14;" text="Selecciona un doctor" />
+        <ListView fx:id="doctorListView" prefHeight="139.0" prefWidth="300" />
+      <Label style="-fx-font-size: 14;" text="Selecciona un paciente" />
+      <ListView fx:id="patientListView" prefHeight="139.0" prefWidth="300.0" />
+      <Label style="-fx-font-size: 14;" text="Motivo de la cita" />
+      <TextArea fx:id="reasonTextArea" prefHeight="67.0" prefWidth="300.0" />
 
-     <Button
-        fx:id="createAppointmentButton" text="Crear Cita"
-        stylesheets="@../style/button.css" styleClass="principleButton"
-        onAction="#createAppointment"
-     />
+     <Button fx:id="createAppointmentButton" onAction="#createAppointment" styleClass="principleButton" stylesheets="@../style/button.css" text="Crear Cita" />
     </VBox>
 
 </AnchorPane>

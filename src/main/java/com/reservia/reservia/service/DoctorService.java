@@ -18,4 +18,19 @@ public class DoctorService {
     public List<Doctor> findAllDoctors () {
         return repository.findAll();
     }
+
+    public Doctor findById (int id) {
+        return repository.findById(id);
+    }
+
+    public void saveDoctor (Doctor doctor) {
+        repository.save(doctor);
+    }
+
+    public void deleteDoctor (int id) {
+        Doctor doctor = repository.findById(id);
+        if (doctor != null) {
+            repository.delete(doctor);
+        }
+    }
 }

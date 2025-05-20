@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class AppointmentService {
     private final AppointmentRepository repository;
@@ -14,19 +15,16 @@ public class AppointmentService {
         this.repository = new AppointmentRepository(em);
     }
 
-    public void saveAppointment(int appointmentId, LocalDate date, String time, String reason, int doctorId, int patientId) {
-        repository.save(new Appointment(appointmentId, date, time, reason, doctorId, patientId));
+    public void saveAppointment(Appointment appointment) {
+        repository.save(appointment);
     }
 
-    public void deleteAppointment(int appointmentId) {
-        Appointment appointment = repository.findById(appointmentId);
-        if (appointment != null) {
-            repository.delete(appointment);
-        }
+    public void deleteAppointment(Appointment appointment) {
+        repository.delete(appointment);
     }
 
-    public void findAllAppointments() {
-        repository.findAll();
+    public List<Appointment> findAllAppointments() {
+        return repository.findAll();
     }
 
 }

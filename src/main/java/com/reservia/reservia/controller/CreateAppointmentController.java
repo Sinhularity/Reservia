@@ -1,7 +1,11 @@
 package com.reservia.reservia.controller;
 
+import com.reservia.reservia.model.Appointment;
 import com.reservia.reservia.model.Doctor;
+import com.reservia.reservia.model.Patient;
+import com.reservia.reservia.service.AppointmentService;
 import com.reservia.reservia.service.DoctorService;
+import com.reservia.reservia.service.PatientService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -32,9 +36,22 @@ public class CreateAppointmentController {
     @FXML
     public ListView<Doctor> doctorListView;
 
+    @FXML
+    public ListView<Patient> patientListView;
+
+    private List<Patient> patients;
+
+    @FXML
+    public TextArea reasonTextArea;
+
     private LocalDate selectedDate;
     private String selectedTime;
     private Doctor selectedDoctor;
+    private Patient selectedPatient;
+    private String reason;
+
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
     private void initializeTimeComboBox() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -53,25 +70,6 @@ public class CreateAppointmentController {
         timeComboBox.setItems(hours);
         timeComboBox.setPromptText("Selecciona una hora");
     }
-
-    public void getDateAndTime() {
-        try {
-            if (calendar.getValue() != null && timeComboBox.getValue() != null) {
-                selectedDate = calendar.getValue();
-                selectedTime = timeComboBox.getValue();
-            }
-        } catch (Exception e) {
-            Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
-        }
-    }
-
-    public void getDoctor() {
-        selectedDoctor = doctorListView.getSelectionModel().getSelectedItem();
-        if (selectedDoctor != null) {
-            System.out.println("Doctor seleccionado: " + selectedDoctor.getFirstName() + " " + selectedDoctor.getLastName());
-        }
-    }
-
     @FXML
     public void initialize() {
         // Disable dates before today in the DatePicker
@@ -86,8 +84,8 @@ public class CreateAppointmentController {
 
         initializeTimeComboBox();
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("reserviaPU");
-        EntityManager em = emf.createEntityManager();
+        emf = Persistence.createEntityManagerFactory("reserviaPU");
+        em = emf.createEntityManager();
 
         DoctorService doctorService = new DoctorService(em);
         doctors = doctorService.findAllDoctors();
@@ -108,25 +106,111 @@ public class CreateAppointmentController {
             }
         });
 
+        PatientService patientService = new PatientService(em);
+        patients = patientService.findAllPatients();
 
-        System.out.println("Doctor list size: " + doctors.size());
+        ObservableList<Patient> observablePatients = FXCollections.observableArrayList(patients);
+        patientListView.setItems(observablePatients);
+
+        patientListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Patient patient, boolean empty) {
+                super.updateItem(patient, empty);
+                if (empty || patient == null) {
+                    setText(null);
+                } else {
+                    setText(patient.getFirstName() + " "+patient.getMiddleName() +" " + patient.getLastName());
+                }
+            }
+        });
+
         em.close();
         emf.close();
     }
 
     @FXML
     public void createAppointment() {
-        getDoctor();
-        getDateAndTime();
-        if (selectedDate != null && selectedTime != null && selectedDoctor != null) {
-            System.out.println("Cita creada para el doctor: " + selectedDoctor.getFirstName() + " " + selectedDoctor.getLastName());
-            System.out.println("Fecha: " + selectedDate);
-            System.out.println("Hora: " + selectedTime);
+
+        obtainSelectedValues();
+
+        if (areRequiredFieldsComplete()) {
+            saveAppointment();
+            showAppointmentConfirmation();
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Advertencia");
-            alert.setContentText("Rellena todos los campos");
-            alert.showAndWait();
+            showWarningAlert();
+        }
+
+    }
+
+    private void showAppointmentConfirmation() {
+        final String CONFIRMATION_MESSAGE = "Cita creada con éxito";
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Cita creada");
+        alert.setContentText(CONFIRMATION_MESSAGE);
+        alert.setHeaderText("Detalles de la cita:");
+        alert.setContentText("Fecha: " + selectedDate + "\n" +
+                "Hora: " + selectedTime + "\n" +
+                "Doctor: " + selectedDoctor.getFirstName() + " " + selectedDoctor.getLastName() + "\n" +
+                "Paciente: " + selectedPatient.getFirstName() + " "+selectedPatient.getMiddleName() +" "+ selectedPatient.getLastName() + "\n" +
+                "Motivo: " + reason);
+        alert.showAndWait();
+    }
+
+    private void showWarningAlert() {
+        final String WARNING_MESSAGE = "Rellena todos los campos";
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Advertencia");
+        alert.setContentText(WARNING_MESSAGE);
+        alert.showAndWait();
+    }
+
+    private void obtainSelectedValues() {
+        try {
+            selectedDate = calendar.getValue();
+            selectedTime = timeComboBox.getValue();
+            selectedDoctor = doctorListView.getSelectionModel().getSelectedItem();
+            selectedPatient = patientListView.getSelectionModel().getSelectedItem();
+            reason = reasonTextArea.getText();
+        } catch (Exception e) {
+            System.out.println("Empty fields...");
+        } finally {
+            System.out.println("-------------------------------");
+            System.out.println("Selected date: " + selectedDate);
+            System.out.println("Selected time: " + selectedTime);
+            System.out.println("Selected doctor: " + selectedDoctor);
+            System.out.println("Selected patient: " + selectedPatient);
+            System.out.println("Reason: " + reason);
+            System.out.println("------------------------------");
         }
     }
+
+    private boolean areRequiredFieldsComplete() {
+        return selectedDate != null &&
+                selectedTime != null &&
+                selectedDoctor != null &&
+                selectedPatient != null &&
+                reason != null;
+    }
+
+    public void saveAppointment() {
+        emf = Persistence.createEntityManagerFactory("reserviaPU");
+        em = emf.createEntityManager();
+        AppointmentService appointmentService = new AppointmentService(em);
+        try {
+            appointmentService.saveAppointment(new Appointment(
+                    selectedDate,
+                    selectedTime,
+                    reason,
+                    selectedDoctor.getDoctorId(),
+                    selectedPatient.getPatientId()
+            ));
+        } catch (Exception e) {
+            Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        } finally {
+            em.close();
+            emf.close();
+        }
+    }
+
+
 }

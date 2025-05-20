@@ -13,8 +13,8 @@ public class Reservia extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Reservia.class.getResource
                 ("/com/reservia/reservia/view/ClientView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("¡Bienvenido a Reservia!");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("¡Bienvenido a ReservIA!");
         stage.setScene(scene);
         stage.show();
     }

@@ -4,6 +4,8 @@ import com.reservia.reservia.model.Patient;
 import com.reservia.reservia.repository.PatientRepository;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 public class PatientService {
 
     private final PatientRepository repository;
@@ -12,15 +14,19 @@ public class PatientService {
         this.repository = new PatientRepository(em);
     }
 
-    public void savePatient(int id, String firstName, String middleName, String lastName, String curp, String phoneNumber, String email) {
-        Patient patient = new Patient(id, firstName, middleName, lastName, curp, phoneNumber, email);
+    public void savePatient(Patient patient) {
         repository.save(patient);
     }
 
-    public void deletePatientByCURP(String curp) {
-        Patient patient = repository.findByCurp(curp);
-        if (patient != null) {
-            repository.delete(patient);
-        }
+    public List<Patient> findAllPatients() {
+        return repository.findAll();
+    }
+
+    public Patient findById(int id) {
+        return repository.findById(id);
+    }
+
+    public void deletePatient(Patient patient) {
+        repository.delete(patient);
     }
 }

@@ -1,17 +1,9 @@
 package com.reservia.reservia.controller;
 
-import com.reservia.reservia.model.Doctor;
-import com.reservia.reservia.service.DoctorService;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
-
 import javafx.scene.control.ScrollPane;
-import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,12 +27,17 @@ public class ClientController {
         loadView("/com/reservia/reservia/view/CreateAppointmentView.fxml");
     }
     @FXML
-    private void loadAccountView() {
-        loadView("/com/reservia/reservia/view/AccountView.fxml");
+    private void loadShowPatientView() {
+        loadView("/com/reservia/reservia/view/MainPatientView.fxml");
     }
     @FXML
     private void loadShowAppointmentView() {
         loadView("/com/reservia/reservia/view/ShowAppointmentView.fxml");
+    }
+
+    @FXML
+    private void loadShowDoctorView() {
+        loadView("/com/reservia/reservia/view/MainDoctorView.fxml");
     }
 
     @FXML

@@ -22,23 +22,9 @@ public class PatientRepository {
         return em.createQuery("SELECT p FROM Patient p", Patient.class).getResultList();
     }
 
-
-    public Patient findByCurp(String curp) {
-        return em.createQuery("SELECT p FROM Patient p WHERE p.curp = :curp", Patient.class)
-                .setParameter("curp", curp)
-                .getSingleResult();
+    public Patient findById(int id) {
+        return em.find(Patient.class, id);
     }
-   public Patient findByName(String name) {
-        return em.createQuery("SELECT p FROM Patient p WHERE p.firstName = :name", Patient.class)
-                .setParameter("name", name)
-                .getSingleResult();
-   }
-
-   public Patient findByLastName(String lastName) {
-       return em.createQuery("SELECT p FROM Patient p WHERE p.lastName = :lastName", Patient.class)
-               .setParameter("lastName", lastName)
-               .getSingleResult();
-   }
 
     public void delete(Patient patient) {
         em.getTransaction().begin();

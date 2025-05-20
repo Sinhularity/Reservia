@@ -1,7 +1,8 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
-import com.reservia.reservia.model.Doctor;
-import com.reservia.reservia.service.DoctorService;
+import com.reservia.reservia.server.model.Doctor;
+import com.reservia.reservia.server.remote.DoctorServiceRemote;
+import com.reservia.reservia.server.service.DoctorService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -15,11 +16,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.rmi.Naming;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DoctorListController {
-
-    private DoctorService doctorService;
 
     @FXML
     private TableView<Doctor> doctorTable;
@@ -44,11 +45,15 @@ public class DoctorListController {
 
     private ObservableList<Doctor> doctors;
 
+    private DoctorServiceRemote doctorService;
+
     @FXML
     public void initialize() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("reserviaPU");
-        EntityManager em = emf.createEntityManager();
-        doctorService = new DoctorService(em);
+        try {
+            doctorService = (DoctorServiceRemote) Naming.lookup("DoctorService");
+        } catch (Exception e) {
+            Logger.getLogger(PatientListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
 
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -60,8 +65,13 @@ public class DoctorListController {
         loadDoctors();
     }
 
-    private void loadDoctors() {
-        List<Doctor> doctorList = doctorService.findAllDoctors();
+    protected void loadDoctors() {
+        List<Doctor> doctorList = null;
+        try {
+            doctorList = doctorService.getAllDoctors();
+        } catch (Exception e) {
+            Logger.getLogger(DoctorListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
         doctors = FXCollections.observableArrayList(doctorList);
         doctorTable.setItems(doctors);
     }
@@ -77,7 +87,11 @@ public class DoctorListController {
                         btn.setOnAction(event -> {
                             Doctor doctor = getTableView().getItems().get(getIndex());
                             doctors.remove(doctor);
-                            doctorService.deleteDoctor(doctor.getDoctorId());
+                            try {
+                                doctorService.deleteDoctor(doctor.getDoctorId());
+                            } catch (Exception e) {
+                                Logger.getLogger(DoctorListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+                            }
                         });
                     }
 

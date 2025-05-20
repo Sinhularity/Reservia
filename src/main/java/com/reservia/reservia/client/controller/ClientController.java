@@ -1,4 +1,4 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

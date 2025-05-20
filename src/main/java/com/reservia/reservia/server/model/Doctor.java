@@ -1,10 +1,13 @@
-package com.reservia.reservia.model;
+package com.reservia.reservia.server.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "doctor")
-public class Doctor {
+public class Doctor implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

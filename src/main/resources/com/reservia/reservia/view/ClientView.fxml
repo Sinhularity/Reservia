@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ClientPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="703.0" styleClass="background" stylesheets="@../style/mainView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.controller.ClientController">
+<AnchorPane fx:id="ClientPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="703.0" styleClass="background" stylesheets="@../style/mainView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.client.controller.ClientController">
    <children>
       <Label fx:id="clientTitleLabel" alignment="CENTER" layoutX="20.0" prefHeight="17.0" prefWidth="560.0" styleClass="main-title" stylesheets="@../style/mainView.css" text="Reservia">
          <font>

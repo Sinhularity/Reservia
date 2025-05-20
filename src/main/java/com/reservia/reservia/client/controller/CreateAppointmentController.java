@@ -1,11 +1,12 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
-import com.reservia.reservia.model.Appointment;
-import com.reservia.reservia.model.Doctor;
-import com.reservia.reservia.model.Patient;
-import com.reservia.reservia.service.AppointmentService;
-import com.reservia.reservia.service.DoctorService;
-import com.reservia.reservia.service.PatientService;
+import com.reservia.reservia.server.model.Appointment;
+import com.reservia.reservia.server.model.Doctor;
+import com.reservia.reservia.server.model.Patient;
+import com.reservia.reservia.server.remote.AppointmentServiceRemote;
+import com.reservia.reservia.server.service.AppointmentService;
+import com.reservia.reservia.server.service.DoctorService;
+import com.reservia.reservia.server.service.PatientService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -14,7 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.awt.event.ActionEvent;
+import java.rmi.Naming;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -50,8 +51,7 @@ public class CreateAppointmentController {
     private Patient selectedPatient;
     private String reason;
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
+    private AppointmentServiceRemote appointmentService;
 
     private void initializeTimeComboBox() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -72,6 +72,12 @@ public class CreateAppointmentController {
     }
     @FXML
     public void initialize() {
+        try {
+            appointmentService = (AppointmentServiceRemote) Naming.lookup("AppointmentService");
+        } catch (Exception e) {
+            Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
+
         // Disable dates before today in the DatePicker
         calendar.setDayCellFactory(d -> new DateCell() {
             @Override
@@ -83,13 +89,14 @@ public class CreateAppointmentController {
         });
 
         initializeTimeComboBox();
-
-        emf = Persistence.createEntityManagerFactory("reserviaPU");
-        em = emf.createEntityManager();
-
-        DoctorService doctorService = new DoctorService(em);
-        doctors = doctorService.findAllDoctors();
-
+        List<Doctor> doctors = null;
+        List<Patient> patients = null;
+        try {
+            doctors = appointmentService.getAllDoctors();
+            patients = appointmentService.getAllPatients();
+        } catch (Exception e) {
+            Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
         // Cargar la ListView con los datos
         ObservableList<Doctor> observableDoctors = FXCollections.observableArrayList(doctors);
         doctorListView.setItems(observableDoctors);
@@ -106,9 +113,6 @@ public class CreateAppointmentController {
             }
         });
 
-        PatientService patientService = new PatientService(em);
-        patients = patientService.findAllPatients();
-
         ObservableList<Patient> observablePatients = FXCollections.observableArrayList(patients);
         patientListView.setItems(observablePatients);
 
@@ -124,8 +128,6 @@ public class CreateAppointmentController {
             }
         });
 
-        em.close();
-        emf.close();
     }
 
     @FXML
@@ -193,11 +195,8 @@ public class CreateAppointmentController {
     }
 
     public void saveAppointment() {
-        emf = Persistence.createEntityManagerFactory("reserviaPU");
-        em = emf.createEntityManager();
-        AppointmentService appointmentService = new AppointmentService(em);
         try {
-            appointmentService.saveAppointment(new Appointment(
+            appointmentService.addAppointment(new Appointment(
                     selectedDate,
                     selectedTime,
                     reason,
@@ -206,11 +205,6 @@ public class CreateAppointmentController {
             ));
         } catch (Exception e) {
             Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
-        } finally {
-            em.close();
-            emf.close();
         }
     }
-
-
 }

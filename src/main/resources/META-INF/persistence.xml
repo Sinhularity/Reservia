@@ -7,7 +7,7 @@
 
     <!-- Mapping to annotated entity class-->
     <persistence-unit name="reserviaPU" transaction-type="RESOURCE_LOCAL">
-        <class>com.reservia.reservia.model.Doctor</class>
+        <class>com.reservia.reservia.server.model.Doctor</class>
 
         <properties>
             <!-- Init the database connection -->

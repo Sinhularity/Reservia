@@ -1,4 +1,4 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +15,7 @@ public class DoctorController {
 
     private Node createDoctorView;
     private Node doctorListView;
+    private DoctorListController doctorListController;
 
     @FXML
     public void initialize() {
@@ -25,6 +26,8 @@ public class DoctorController {
 
             FXMLLoader doctorListLoader = new FXMLLoader(getClass().getResource("/com/reservia/reservia/view/DoctorListView.fxml"));
             doctorListView = doctorListLoader.load();
+            doctorListController = doctorListLoader.getController();
+
 
         } catch (IOException e) {
             Logger.getLogger(DoctorController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
@@ -40,6 +43,7 @@ public class DoctorController {
             case 0:
                 return createDoctorView;
             case 1:
+                doctorListController.loadDoctors();
                 return doctorListView;
             default:
                 return null;

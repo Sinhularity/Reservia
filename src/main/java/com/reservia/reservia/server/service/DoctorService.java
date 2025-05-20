@@ -1,7 +1,7 @@
-package com.reservia.reservia.service;
+package com.reservia.reservia.server.service;
 
-import com.reservia.reservia.model.Doctor;
-import com.reservia.reservia.repository.DoctorRepository;
+import com.reservia.reservia.server.model.Doctor;
+import com.reservia.reservia.server.repository.DoctorRepository;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
@@ -27,10 +27,7 @@ public class DoctorService {
         repository.save(doctor);
     }
 
-    public void deleteDoctor (int id) {
-        Doctor doctor = repository.findById(id);
-        if (doctor != null) {
-            repository.delete(doctor);
-        }
+    public void deleteDoctor (Doctor doctor) {
+        repository.delete(doctor);
     }
 }

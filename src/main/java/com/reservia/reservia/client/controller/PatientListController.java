@@ -1,10 +1,7 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
-import com.reservia.reservia.model.Patient;
-import com.reservia.reservia.service.PatientService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import com.reservia.reservia.server.model.Patient;
+import com.reservia.reservia.server.remote.PatientServiceRemote;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,11 +12,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PatientListController {
 
-    private PatientService patientService;
+    private PatientServiceRemote patientService;
 
     @FXML
     private TableView<Patient> patientTable;
@@ -50,9 +50,12 @@ public class PatientListController {
 
     @FXML
     public void initialize() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("reserviaPU");
-        EntityManager em = emf.createEntityManager();
-        patientService = new PatientService(em);
+
+        try {
+            patientService = (PatientServiceRemote) Naming.lookup("PatientService");
+        } catch (Exception e) {
+            Logger.getLogger(PatientListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
 
         // Configure columns based on Patient class
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -64,16 +67,20 @@ public class PatientListController {
 
 
         addDeleteButtonToTable();
-        loadPatients();
+        try {
+            loadPatients();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void loadPatients() {
-        List<Patient> patientList = patientService.findAllPatients();
+    protected void loadPatients() throws RemoteException {
+        List<Patient> patientList = patientService.getAllPatients();
         patients = FXCollections.observableArrayList(patientList);
         patientTable.setItems(patients);
     }
 
-    private void addDeleteButtonToTable() {
+    protected void addDeleteButtonToTable() {
         Callback<TableColumn<Patient, Void>, TableCell<Patient, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Patient, Void> call(final TableColumn<Patient, Void> param) {
@@ -84,7 +91,11 @@ public class PatientListController {
                         btn.setOnAction(event -> {
                             Patient patient = getTableView().getItems().get(getIndex());
                             patients.remove(patient);
-                            patientService.deletePatient(patient);
+                            try {
+                                patientService.deletePatient(patient.getPatientId());
+                            } catch (RemoteException e) {
+                                throw new RuntimeException(e);
+                            }
                         });
                     }
 

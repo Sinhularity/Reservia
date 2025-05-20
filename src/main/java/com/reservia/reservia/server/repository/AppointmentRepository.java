@@ -1,6 +1,6 @@
-package com.reservia.reservia.repository;
+package com.reservia.reservia.server.repository;
 
-import com.reservia.reservia.model.Appointment;
+import com.reservia.reservia.server.model.Appointment;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="941.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.controller.CreateAppointmentController">
+<AnchorPane prefHeight="941.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.client.controller.CreateAppointmentController">
 
     <VBox layoutX="50" layoutY="50" spacing="15">
         <Label style="-fx-font-size: 14;" text="Selecciona una fecha para la cita" />

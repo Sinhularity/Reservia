@@ -1,10 +1,14 @@
-package com.reservia.reservia.model;
+package com.reservia.reservia.server.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "patient")
-public class Patient {
+public class Patient implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,22 +31,22 @@ public class Patient {
     @Column(name = "last_name",
             nullable = false
     )
-    private String lastName;
+    private  String lastName;
 
     @Column(name = "curp",
             nullable = false
     )
-    private String curp;
+    private  String curp;
 
     @Column(name = "phone",
             nullable = false
     )
-    private String phone;
+    private  String phone;
 
     @Column(name = "email",
             nullable = false
     )
-    private String email;
+    private  String email;
 
     public Patient() {
     }

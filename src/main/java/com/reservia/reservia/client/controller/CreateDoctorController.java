@@ -1,13 +1,15 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
-import com.reservia.reservia.model.Doctor;
-import com.reservia.reservia.service.DoctorService;
+import com.reservia.reservia.server.model.Doctor;
+import com.reservia.reservia.server.remote.DoctorServiceRemote;
+import com.reservia.reservia.server.service.DoctorService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.rmi.Naming;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,13 +42,15 @@ public class CreateDoctorController {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private DoctorService doctorService;
+    private DoctorServiceRemote doctorService;
 
     @FXML
     public void initialize() {
-        emf = Persistence.createEntityManagerFactory("reserviaPU");
-        em = emf.createEntityManager();
-        doctorService = new DoctorService(em);
+        try {
+            doctorService = (DoctorServiceRemote) Naming.lookup("DoctorService");
+        } catch (Exception e) {
+            Logger.getLogger(PatientListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+        }
     }
 
     @FXML
@@ -60,7 +64,7 @@ public class CreateDoctorController {
             email = emailField.getText().trim();
 
             if (isUserInputValid()) {
-                doctorService.saveDoctor(new Doctor(firstName, lastName, middleName, specialty, phone, email));
+                doctorService.addDoctor(new Doctor(firstName, lastName, middleName, specialty, phone, email));
                 cleanFields();
                 showDoctorConfirmation();
             } else {

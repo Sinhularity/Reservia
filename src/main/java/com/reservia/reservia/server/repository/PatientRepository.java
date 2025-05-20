@@ -1,6 +1,6 @@
-package com.reservia.reservia.repository;
+package com.reservia.reservia.server.repository;
 
-import com.reservia.reservia.model.Patient;
+import com.reservia.reservia.server.model.Patient;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;

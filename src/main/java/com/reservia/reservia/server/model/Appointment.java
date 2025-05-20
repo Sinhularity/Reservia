@@ -1,12 +1,15 @@
-package com.reservia.reservia.model;
+package com.reservia.reservia.server.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "appointment")
-public class Appointment {
+public class Appointment implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

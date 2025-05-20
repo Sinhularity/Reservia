@@ -1,11 +1,9 @@
-package com.reservia.reservia.service;
+package com.reservia.reservia.server.service;
 
-import com.reservia.reservia.model.Appointment;
-import com.reservia.reservia.repository.AppointmentRepository;
+import com.reservia.reservia.server.model.Appointment;
+import com.reservia.reservia.server.repository.AppointmentRepository;
 import jakarta.persistence.EntityManager;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class AppointmentService {
@@ -21,6 +19,10 @@ public class AppointmentService {
 
     public void deleteAppointment(Appointment appointment) {
         repository.delete(appointment);
+    }
+
+    public Appointment findById(int id) {
+        return repository.findById(id);
     }
 
     public List<Appointment> findAllAppointments() {

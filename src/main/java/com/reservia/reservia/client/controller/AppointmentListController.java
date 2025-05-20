@@ -1,11 +1,11 @@
-package com.reservia.reservia.controller;
+package com.reservia.reservia.client.controller;
 
-import com.reservia.reservia.model.Appointment;
-import com.reservia.reservia.model.Doctor;
-import com.reservia.reservia.model.Patient;
-import com.reservia.reservia.service.AppointmentService;
-import com.reservia.reservia.service.DoctorService;
-import com.reservia.reservia.service.PatientService;
+import com.reservia.reservia.server.model.Appointment;
+import com.reservia.reservia.server.model.Doctor;
+import com.reservia.reservia.server.model.Patient;
+import com.reservia.reservia.server.service.AppointmentService;
+import com.reservia.reservia.server.service.DoctorService;
+import com.reservia.reservia.server.service.PatientService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;

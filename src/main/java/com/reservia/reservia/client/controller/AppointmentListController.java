@@ -3,6 +3,9 @@ package com.reservia.reservia.client.controller;
 import com.reservia.reservia.server.model.Appointment;
 import com.reservia.reservia.server.model.Doctor;
 import com.reservia.reservia.server.model.Patient;
+import com.reservia.reservia.server.remote.AppointmentServiceRemote;
+import com.reservia.reservia.server.remote.DoctorServiceRemote;
+import com.reservia.reservia.server.remote.PatientServiceRemote;
 import com.reservia.reservia.server.service.AppointmentService;
 import com.reservia.reservia.server.service.DoctorService;
 import com.reservia.reservia.server.service.PatientService;
@@ -20,14 +23,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class AppointmentListController {
 
-    private AppointmentService appointmentService;
-    private DoctorService doctorService;
-    private PatientService patientService;
+    private AppointmentServiceRemote appointmentService;
+    private DoctorServiceRemote doctorService;
+    private PatientServiceRemote patientService;
 
     @FXML
     private TableView<Appointment> appointmentTable;
@@ -54,11 +60,13 @@ public class AppointmentListController {
 
     @FXML
     public void initialize() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("reserviaPU");
-        EntityManager em = emf.createEntityManager();
-        appointmentService = new AppointmentService(em);
-        doctorService = new DoctorService(em);
-        patientService = new PatientService(em);
+        try {
+            doctorService = (DoctorServiceRemote) Naming.lookup("DoctorService");
+            patientService = (PatientServiceRemote) Naming.lookup("PatientService");
+            appointmentService = (AppointmentServiceRemote) Naming.lookup("AppointmentService");
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).severe("Error initializing AppointmentListController: " + e.getMessage());
+        }
 
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -70,14 +78,24 @@ public class AppointmentListController {
         
         colDoctor.setCellValueFactory(cellData -> {
             int doctorId = cellData.getValue().getDoctorId();
-            Doctor doctor = doctorService.findById(doctorId);
+            Doctor doctor = null;
+            try {
+                doctor = doctorService.getDoctorById(doctorId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             String doctorName = doctor.getFirstName()+" " + doctor.getLastName();
             return new SimpleStringProperty(doctorName);
         });
 
         colPatient.setCellValueFactory(cellData -> {
             int patientId = cellData.getValue().getPatientId();
-            Patient patient = patientService.findById(patientId);
+            Patient patient = null;
+            try {
+                patient = patientService.getPatientById(patientId);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             String patientName =patient.getFirstName() + " " + patient.getLastName();
             return new SimpleStringProperty(patientName);
         });
@@ -87,7 +105,12 @@ public class AppointmentListController {
     }
 
     private void loadAppointments() {
-        List<Appointment> appointmentList = appointmentService.findAllAppointments();
+        List<Appointment> appointmentList = null;
+        try {
+            appointmentList = appointmentService.getAllAppointments();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         appointments = FXCollections.observableArrayList(appointmentList);
         appointmentTable.setItems(appointments);
     }
@@ -103,7 +126,11 @@ public class AppointmentListController {
                         btn.setOnAction(event -> {
                             Appointment appointment = getTableView().getItems().get(getIndex());
                             appointments.remove(appointment);
-                            appointmentService.deleteAppointment(appointment);
+                            try {
+                                appointmentService.deleteAppointment(appointment.getAppointmentId());
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         });
                     }
 

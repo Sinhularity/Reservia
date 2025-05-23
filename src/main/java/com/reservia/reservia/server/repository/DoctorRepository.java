@@ -26,16 +26,9 @@ public class DoctorRepository {
         return em.find(Doctor.class, id);
     }
 
-    public Doctor findByName (String name) {
-        return em.createQuery("SELECT d FROM Doctor d WHERE d.firstName = :name"
-                        , Doctor.class)
-                .setParameter("name", name)
-                .getSingleResult();
-    }
-
     public void delete(Doctor doctor) {
         em.getTransaction().begin();
-        em.remove(em.contains(doctor) ? doctor : em.merge(doctor));
+        em.remove(doctor);
         em.getTransaction().commit();
     }
 }

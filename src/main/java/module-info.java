@@ -4,11 +4,11 @@ module com.reservia.reservia {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
-    requires java.desktop;
     requires java.logging;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires java.rmi;
+    requires javafx.graphics;
 
     opens com.reservia.reservia to javafx.fxml;
     exports com.reservia.reservia;

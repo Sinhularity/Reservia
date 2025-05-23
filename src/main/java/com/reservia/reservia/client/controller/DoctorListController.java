@@ -2,10 +2,6 @@ package com.reservia.reservia.client.controller;
 
 import com.reservia.reservia.server.model.Doctor;
 import com.reservia.reservia.server.remote.DoctorServiceRemote;
-import com.reservia.reservia.server.service.DoctorService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +10,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 import javafx.util.Callback;
 
 import java.rmi.Naming;
@@ -35,7 +32,7 @@ public class DoctorListController {
     private TableColumn<Doctor, String> colMiddleName;
 
     @FXML
-    private TableColumn<Doctor, String> colSpecialty;
+    private TableColumn<Doctor, String> colPhone;
 
     @FXML
     private TableColumn<Doctor, String> colEmail;
@@ -58,7 +55,7 @@ public class DoctorListController {
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         colMiddleName.setCellValueFactory(new PropertyValueFactory<>("middleName"));
-        colSpecialty.setCellValueFactory(new PropertyValueFactory<>("specialty"));
+        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         addDeleteButtonToTable();
@@ -77,13 +74,24 @@ public class DoctorListController {
     }
 
     private void addDeleteButtonToTable() {
+        deleteColumn.setText("");
+
         Callback<TableColumn<Doctor, Void>, TableCell<Doctor, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Doctor, Void> call(final TableColumn<Doctor, Void> param) {
                 return new TableCell<>() {
-                    private final Button btn = new Button("Eliminar");
-
+                    private final Button btn = new Button();
                     {
+                        // Cargar imagen basura
+                        javafx.scene.image.ImageView icon = new javafx.scene.image.ImageView(
+                                new javafx.scene.image.Image(getClass().getResourceAsStream("/images/basura.png"))
+                        );
+                        icon.setFitWidth(16);
+                        icon.setFitHeight(16);
+                        btn.setMaxSize(30, 30);
+                        btn.setGraphic(icon);
+                        btn.getStyleClass().add("delete-icon-button");
+
                         btn.setOnAction(event -> {
                             Doctor doctor = getTableView().getItems().get(getIndex());
                             doctors.remove(doctor);
@@ -100,8 +108,14 @@ public class DoctorListController {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
+                            setText(null);
                         } else {
-                            setGraphic(btn);
+                            javafx.scene.layout.HBox wrapper = new javafx.scene.layout.HBox(btn);
+                            wrapper.setAlignment(javafx.geometry.Pos.CENTER);
+                            wrapper.setStyle("-fx-background-color: transparent;");
+                            wrapper.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                            setGraphic(wrapper);
+                            setStyle("-fx-background-color: transparent;");
                         }
                     }
                 };

@@ -10,3 +10,18 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+.delete-icon-button {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-padding: 8;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+}
+.delete-icon-button:hover {
+    -fx-background-color: #ffecec;
+    -fx-border-color: #e74c3c;
+}
+

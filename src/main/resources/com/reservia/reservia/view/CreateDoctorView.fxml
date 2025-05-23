@@ -20,7 +20,7 @@
         <TextField fx:id="lastNameField" promptText="Apellido paterno" />
         <TextField fx:id="middleNameField" promptText="Apellido materno" />
         <TextField fx:id="specialtyField" promptText="Especialidad" />
-        <TextField fx:id="phoneField" promptText="Teléfono" />
+        <TextField fx:id="licenseNumberField" promptText="Cédula profesional" />
         <TextField fx:id="emailField" promptText="Correo electrónico" />
 
         <Button onAction="#saveDoctor" prefWidth="200" text="Guardar doctor" />

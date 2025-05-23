@@ -4,7 +4,7 @@ import com.reservia.reservia.server.model.Doctor;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
-// Class in charge of the database operations for the Doctor entity
+
 public class DoctorRepository {
     private final EntityManager em;
 
@@ -26,9 +26,22 @@ public class DoctorRepository {
         return em.find(Doctor.class, id);
     }
 
+    public void update(Doctor doctor) {
+        em.getTransaction().begin();
+        em.merge(doctor);
+        em.getTransaction().commit();
+    }
+
     public void delete(Doctor doctor) {
         em.getTransaction().begin();
-        em.remove(doctor);
+        if (!em.contains(doctor)) {
+            Doctor managedDoctor = em.find(Doctor.class, doctor.getDoctorId());
+            if (managedDoctor != null) {
+                em.remove(managedDoctor);
+            }
+        } else {
+            em.remove(doctor);
+        }
         em.getTransaction().commit();
     }
 }

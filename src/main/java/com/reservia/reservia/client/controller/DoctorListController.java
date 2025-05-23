@@ -5,16 +5,21 @@ import com.reservia.reservia.server.remote.DoctorServiceRemote;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.rmi.Naming;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DoctorListController {
@@ -32,10 +37,16 @@ public class DoctorListController {
     private TableColumn<Doctor, String> colMiddleName;
 
     @FXML
-    private TableColumn<Doctor, String> colPhone;
+    private TableColumn<Doctor, String> colLicenseNumber;
+
+    @FXML
+    private TableColumn<Doctor, String> colSpecialty;
 
     @FXML
     private TableColumn<Doctor, String> colEmail;
+
+    @FXML
+    private TableColumn<Doctor, Void> editColumn;
 
     @FXML
     private TableColumn<Doctor, Void> deleteColumn;
@@ -55,9 +66,13 @@ public class DoctorListController {
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         colMiddleName.setCellValueFactory(new PropertyValueFactory<>("middleName"));
-        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colLicenseNumber.setCellValueFactory(new PropertyValueFactory<>("licenseNumber"));
+        if (colSpecialty != null) {
+            colSpecialty.setCellValueFactory(new PropertyValueFactory<>("specialty"));
+        }
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+        addEditButtonToTable();
         addDeleteButtonToTable();
         loadDoctors();
     }
@@ -69,8 +84,19 @@ public class DoctorListController {
         } catch (Exception e) {
             Logger.getLogger(DoctorListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
+        if (doctorList == null) {
+            doctorList = new ArrayList<>();
+        }
         doctors = FXCollections.observableArrayList(doctorList);
         doctorTable.setItems(doctors);
+    }
+
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void addDeleteButtonToTable() {
@@ -82,7 +108,6 @@ public class DoctorListController {
                 return new TableCell<>() {
                     private final Button btn = new Button();
                     {
-                        // Cargar imagen basura
                         javafx.scene.image.ImageView icon = new javafx.scene.image.ImageView(
                                 new javafx.scene.image.Image(getClass().getResourceAsStream("/images/basura.png"))
                         );
@@ -123,4 +148,57 @@ public class DoctorListController {
         };
         deleteColumn.setCellFactory(cellFactory);
     }
+
+    private void addEditButtonToTable() {
+        Callback<TableColumn<Doctor, Void>, TableCell<Doctor, Void>> cellFactory = param -> {
+            final TableCell<Doctor, Void> cell = new TableCell<>() {
+                private final Button btn = new Button("Editar");
+
+                {
+                    btn.setOnAction(event -> {
+                        Doctor doctor = getTableView().getItems().get(getIndex());
+                        openEditDoctorDialog(doctor);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                    }
+                }
+            };
+            return cell;
+        };
+        editColumn.setCellFactory(cellFactory);
+    }
+    private void openEditDoctorDialog(Doctor doctor) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/reservia/reservia/view/CreateDoctorView.fxml"));
+            Parent root = loader.load();
+
+            CreateDoctorController controller = loader.getController();
+            controller.loadDoctorDataForEdit(doctor);
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar Doctor");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            dialogStage.showAndWait();
+
+            loadDoctors();
+
+        } catch (IOException e) {
+            Logger.getLogger(DoctorListController.class.getName()).log(Level.SEVERE, "Error al abrir diálogo de edición", e);
+            showErrorAlert("Error de Carga", "No se pudo abrir la ventana de edición.");
+        }
+    }
+
+
 }

@@ -78,7 +78,6 @@ public class CreateAppointmentController {
             Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
 
-        // Disable dates before today in the DatePicker
         calendar.setDayCellFactory(d -> new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
@@ -97,7 +96,6 @@ public class CreateAppointmentController {
         } catch (Exception e) {
             Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
-        // Cargar la ListView con los datos
         ObservableList<Doctor> observableDoctors = FXCollections.observableArrayList(doctors);
         doctorListView.setItems(observableDoctors);
 

@@ -11,4 +11,5 @@ public interface DoctorServiceRemote extends Remote {
     void addDoctor(Doctor doctor) throws Exception;
     void updateDoctor(Doctor doctor) throws Exception;
     void deleteDoctor(int id) throws Exception;
+
 }

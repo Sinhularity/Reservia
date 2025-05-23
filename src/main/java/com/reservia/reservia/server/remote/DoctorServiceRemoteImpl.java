@@ -3,8 +3,6 @@ package com.reservia.reservia.server.remote;
 import com.reservia.reservia.server.model.Doctor;
 import com.reservia.reservia.server.service.DoctorService;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,7 +33,7 @@ public class DoctorServiceRemoteImpl extends UnicastRemoteObject implements Doct
 
     @Override
     public void updateDoctor(Doctor doctor) throws Exception {
-
+        doctorService.updateDoctor(doctor);
     }
 
     @Override

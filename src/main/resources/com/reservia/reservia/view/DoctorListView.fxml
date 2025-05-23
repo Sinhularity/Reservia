@@ -22,8 +22,9 @@
                 <TableColumn fx:id="colLastName" text="Apellido Paterno" prefWidth="380" />
                 <TableColumn fx:id="colMiddleName" text="Apellido Materno" prefWidth="280" />
                 <TableColumn fx:id="colLicenseNumber" text="Especialidad" prefWidth="280" />
-                <TableColumn fx:id="colPhone" text="Teléfono" prefWidth="280" />
+                <TableColumn fx:id="colSpecialty" text="Especialidad" />
                 <TableColumn fx:id="colEmail" text="Email" prefWidth="350" />
+                <TableColumn fx:id="editColumn" text="Editar" prefWidth="200"/>
                 <TableColumn fx:id="deleteColumn" text="" prefWidth="200" />
             </columns>
             <columnResizePolicy>

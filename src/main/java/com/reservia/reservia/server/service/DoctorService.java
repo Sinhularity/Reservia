@@ -6,7 +6,7 @@ import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-// Class in charge of the business logic for the Doctor entity
+
 public class DoctorService {
 
     private final DoctorRepository repository;
@@ -26,6 +26,8 @@ public class DoctorService {
     public void saveDoctor (Doctor doctor) {
         repository.save(doctor);
     }
+
+    public void updateDoctor(Doctor doctor) { repository.update(doctor); }
 
     public void deleteDoctor (Doctor doctor) {
         repository.delete(doctor);

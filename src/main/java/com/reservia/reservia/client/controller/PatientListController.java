@@ -57,7 +57,6 @@ public class PatientListController {
             Logger.getLogger(PatientListController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
 
-        // Configure columns based on Patient class
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         colMiddleName.setCellValueFactory(new PropertyValueFactory<>("middleName"));

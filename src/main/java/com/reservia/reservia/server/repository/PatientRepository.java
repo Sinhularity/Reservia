@@ -26,9 +26,22 @@ public class PatientRepository {
         return em.find(Patient.class, id);
     }
 
+    public void update(Patient patient) {
+        em.getTransaction().begin();
+        em.merge(patient);
+        em.getTransaction().commit();
+    }
+
     public void delete(Patient patient) {
         em.getTransaction().begin();
-        em.remove(patient);
+        if (!em.contains(patient)) {
+            Patient managedPatient = em.find(Patient.class, patient.getPatientId());
+            if (managedPatient != null) {
+                em.remove(managedPatient);
+            }
+        } else {
+            em.remove(patient);
+        }
         em.getTransaction().commit();
     }
 }

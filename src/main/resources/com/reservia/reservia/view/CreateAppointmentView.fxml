@@ -26,7 +26,8 @@
       <Label style="-fx-font-size: 14;" text="Motivo de la cita" />
       <TextArea fx:id="reasonTextArea" prefHeight="67.0" prefWidth="300.0" />
 
-     <Button fx:id="createAppointmentButton" onAction="#createAppointment" styleClass="principleButton" stylesheets="@../style/button.css" text="Crear Cita" />
+      <Button fx:id="createAppointmentButton" onAction="#createAppointment" text="Crear Cita" />
+
     </VBox>
 
 </AnchorPane>

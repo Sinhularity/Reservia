@@ -3,8 +3,7 @@ package com.reservia.reservia.server.remote;
 import com.reservia.reservia.server.model.Patient;
 import com.reservia.reservia.server.service.PatientService;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,11 +34,23 @@ public class PatientServiceRemoteImpl extends UnicastRemoteObject implements Pat
 
     @Override
     public void updatePatient(Patient patient) throws RemoteException {
-
+        try {
+            patientService.updatePatient(patient);
+        } catch (Exception e) {
+            throw new RemoteException("Error actualizando paciente en el servidor: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void deletePatient(int id) throws RemoteException {
-        patientService.deletePatient(patientService.findById(id));
+        try {
+            Patient patientToDelete = patientService.findById(id);
+            if (patientToDelete != null) {
+                patientService.deletePatient(patientToDelete);
+            } else {
+            }
+        } catch (Exception e) {
+            throw new RemoteException("Error eliminando paciente en el servidor: " + e.getMessage(), e);
+        }
     }
 }

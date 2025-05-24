@@ -26,6 +26,9 @@ public class PatientService {
         return repository.findById(id);
     }
 
+    public void updatePatient(Patient patient) {repository.update(patient);
+    }
+
     public void deletePatient(Patient patient) {
         repository.delete(patient);
     }

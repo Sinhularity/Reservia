@@ -150,31 +150,50 @@ public class DoctorListController {
     }
 
     private void addEditButtonToTable() {
-        Callback<TableColumn<Doctor, Void>, TableCell<Doctor, Void>> cellFactory = param -> {
-            final TableCell<Doctor, Void> cell = new TableCell<>() {
-                private final Button btn = new Button("Editar");
+        editColumn.setText("");
 
-                {
-                    btn.setOnAction(event -> {
-                        Doctor doctor = getTableView().getItems().get(getIndex());
-                        openEditDoctorDialog(doctor);
-                    });
-                }
+        Callback<TableColumn<Doctor, Void>, TableCell<Doctor, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<Doctor, Void> call(final TableColumn<Doctor, Void> param) {
+                return new TableCell<>() {
+                    private final Button btn = new Button();
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(btn);
+                    {
+                        javafx.scene.image.ImageView icon = new javafx.scene.image.ImageView(
+                                new javafx.scene.image.Image(getClass().getResourceAsStream("/images/lapiz.png"))
+                        );
+                        icon.setFitWidth(16);
+                        icon.setFitHeight(16);
+                        btn.setMaxSize(30, 30);
+                        btn.setGraphic(icon);
+                        btn.getStyleClass().add("edit-icon-button");
+
+                        btn.setOnAction(event -> {
+                            Doctor doctor = getTableView().getItems().get(getIndex());
+                            openEditDoctorDialog(doctor);
+                        });
                     }
-                }
-            };
-            return cell;
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            javafx.scene.layout.HBox wrapper = new javafx.scene.layout.HBox(btn);
+                            wrapper.setAlignment(javafx.geometry.Pos.CENTER);
+                            wrapper.setStyle("-fx-background-color: transparent;");
+                            setGraphic(wrapper);
+                            setStyle("-fx-background-color: transparent;");
+                        }
+                    }
+                };
+            }
         };
         editColumn.setCellFactory(cellFactory);
     }
+
     private void openEditDoctorDialog(Doctor doctor) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/reservia/reservia/view/CreateDoctorView.fxml"));

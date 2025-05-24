@@ -52,6 +52,8 @@ public class CreateAppointmentController {
     private String reason;
 
     private AppointmentServiceRemote appointmentService;
+    private boolean editMode = false;
+    private int appointmentIdToEdit = -1;
 
     private void initializeTimeComboBox() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -194,15 +196,50 @@ public class CreateAppointmentController {
 
     public void saveAppointment() {
         try {
-            appointmentService.addAppointment(new Appointment(
+            Appointment newAppointment = new Appointment(
                     selectedDate,
                     selectedTime,
                     reason,
                     selectedDoctor.getDoctorId(),
                     selectedPatient.getPatientId()
-            ));
+            );
+
+            if (editMode) {
+                newAppointment.setAppointmentId(appointmentIdToEdit);
+                appointmentService.updateAppointment(newAppointment);
+            } else {
+                appointmentService.addAppointment(newAppointment);
+            }
+
         } catch (Exception e) {
             Logger.getLogger(CreateAppointmentController.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
         }
+    }
+
+
+    public void loadAppointmentDataForEdit(Appointment appointment) {
+        if (appointment == null) return;
+
+        editMode = true;
+        appointmentIdToEdit = appointment.getAppointmentId();
+        calendar.setValue(appointment.getDate());
+        timeComboBox.setValue(appointment.getTime());
+        reasonTextArea.setText(appointment.getReason());
+
+        for (Doctor doctor : doctorListView.getItems()) {
+            if (doctor.getDoctorId() == appointment.getDoctorId()) {
+                doctorListView.getSelectionModel().select(doctor);
+                break;
+            }
+        }
+
+        for (Patient patient : patientListView.getItems()) {
+            if (patient.getPatientId() == appointment.getPatientId()) {
+                patientListView.getSelectionModel().select(patient);
+                break;
+            }
+        }
+
+        createAppointmentButton.setText("Guardar Cambios");
     }
 }

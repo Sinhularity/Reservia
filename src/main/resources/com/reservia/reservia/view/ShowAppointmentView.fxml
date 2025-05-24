@@ -16,6 +16,7 @@
             <TableColumn fx:id="colReason" text="Motivo" prefWidth="180"/>
             <TableColumn fx:id="colDoctor" text="Doctor" prefWidth="130"/>
             <TableColumn fx:id="colPatient" text="Paciente" prefWidth="130"/>
+            <TableColumn fx:id="colEdit" text="Editar" prefWidth="80"/>
             <TableColumn fx:id="colDelete" text="Eliminar" prefWidth="80"/>
         </columns>
     </TableView>

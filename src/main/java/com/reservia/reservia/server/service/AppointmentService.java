@@ -25,6 +25,11 @@ public class AppointmentService {
         return repository.findById(id);
     }
 
+    public void updateAppointment(Appointment appointment) {
+        repository.update(appointment);
+    }
+
+
     public List<Appointment> findAllAppointments() {
         return repository.findAll();
     }

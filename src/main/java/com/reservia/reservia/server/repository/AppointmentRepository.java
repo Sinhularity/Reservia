@@ -26,6 +26,14 @@ public class AppointmentRepository {
         return em.find(Appointment.class, id);
     }
 
+    public void update(Appointment appointment) {
+        em.getTransaction().begin();
+        em.merge(appointment);
+        em.getTransaction().commit();
+    }
+
+
+
     public void delete(Appointment appointment) {
         em.getTransaction().begin();
         em.remove(appointment);

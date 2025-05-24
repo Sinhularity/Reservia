@@ -40,7 +40,7 @@ public class AppoinmentServiceRemoteImpl extends UnicastRemoteObject implements 
 
     @Override
     public void updateAppointment(Appointment appointment) throws Exception {
-
+        appointmentService.updateAppointment(appointment);
     }
 
     @Override

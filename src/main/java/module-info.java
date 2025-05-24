@@ -9,6 +9,7 @@ module com.reservia.reservia {
     requires org.hibernate.orm.core;
     requires java.rmi;
     requires javafx.graphics;
+    requires java.desktop;
 
     opens com.reservia.reservia to javafx.fxml;
     exports com.reservia.reservia;

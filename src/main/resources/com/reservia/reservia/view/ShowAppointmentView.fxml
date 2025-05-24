@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.reservia.reservia.client.controller.AppointmentListController"
-            prefHeight="400.0" prefWidth="600.0">
-    <TableView fx:id="appointmentTable" prefWidth="700" prefHeight="400">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.client.controller.AppointmentListController">
+    <TableView fx:id="appointmentTable" prefHeight="400" prefWidth="843.0">
         <columns>
-            <TableColumn fx:id="colDate" text="Fecha" prefWidth="120"/>
-            <TableColumn fx:id="colTime" text="Hora" prefWidth="80"/>
-            <TableColumn fx:id="colReason" text="Motivo" prefWidth="180"/>
-            <TableColumn fx:id="colDoctor" text="Doctor" prefWidth="130"/>
-            <TableColumn fx:id="colPatient" text="Paciente" prefWidth="130"/>
-            <TableColumn fx:id="colEdit" text="Editar" prefWidth="80"/>
-            <TableColumn fx:id="colDelete" text="Eliminar" prefWidth="80"/>
+            <TableColumn fx:id="colDate" prefWidth="100.0" text="Fecha" />
+            <TableColumn fx:id="colTime" prefWidth="100.0" text="Hora" />
+            <TableColumn fx:id="colReason" prefWidth="180" text="Motivo" />
+            <TableColumn fx:id="colDoctor" prefWidth="130" text="Doctor" />
+            <TableColumn fx:id="colPatient" prefWidth="130" text="Paciente" />
+            <TableColumn fx:id="colEdit" prefWidth="80" text="Editar" />
+            <TableColumn fx:id="colDelete" prefWidth="80" text="Eliminar" />
         </columns>
     </TableView>
 

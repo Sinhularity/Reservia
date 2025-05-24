@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="ClientPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="703.0" styleClass="background" stylesheets="@../style/mainView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.client.controller.ClientController">
+<AnchorPane fx:id="ClientPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="1043.0" styleClass="background" stylesheets="@../style/mainView.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.reservia.reservia.client.controller.ClientController">
    <children>
       <Label fx:id="clientTitleLabel" alignment="CENTER" layoutX="20.0" prefHeight="17.0" prefWidth="560.0" styleClass="main-title" stylesheets="@../style/mainView.css" text="Reservia">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER_LEFT" prefHeight="506.0" prefWidth="169.0" styleClass="menu-bar" stylesheets="@../style/menu.css">
+      <VBox alignment="CENTER_LEFT" prefHeight="572.0" prefWidth="169.0" styleClass="menu-bar" stylesheets="@../style/menu.css">
          <children>
             <Button fx:id="CreateAppointmentView" mnemonicParsing="false" onAction="#loadCreateAppointmentView" styleClass="menu-button" stylesheets="@../style/menu.css" text="Agendar cita" />
-            <Button fx:id="ShowAppointmentView" onAction="#loadShowAppointmentView" mnemonicParsing="false" styleClass="menu-button" text="Mis citas" />
+            <Button fx:id="ShowAppointmentView" mnemonicParsing="false" onAction="#loadShowAppointmentView" styleClass="menu-button" text="Mis citas" />
             <Button fx:id="MainDoctorView" mnemonicParsing="false" onAction="#loadShowDoctorView" styleClass="menu-button" text="Doctores" />
             <Button fx:id="MainPatientView" mnemonicParsing="false" onAction="#loadShowPatientView" styleClass="menu-button" text="Pacientes" />
          </children>
       </VBox>
-      <ScrollPane fx:id="actualView"
-                  layoutX="180.0" layoutY="81.0"
-                  prefHeight="400.0" prefWidth="600.0"
-                  fitToWidth="true" fitToHeight="true"
-                  pannable="true"
-                  hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
-                  style="-fx-background-color: transparent;">
+      <ScrollPane fx:id="actualView" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="180.0" layoutY="81.0" pannable="true" prefHeight="454.0" prefWidth="845.0" style="-fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
       </ScrollPane>
 
    </children>
